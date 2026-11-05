@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#160d18" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>SUBDIVISION 666 — The market is hell</title>
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23160e16'/%3E%3Cpath d='M12 34L32 14l20 20v18H12z' fill='%23e13a3a'/%3E%3Crect x='27' y='38' width='10' height='14' fill='%23ffc857'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game" aria-label="Subdivision 666 game"></canvas>
+    <div id="vignette"></div>
+    <div id="grain"></div>
+    <div id="damageFlash"></div>
+
+    <div id="hud" class="hidden">
+      <header class="hud-top">
+        <div class="brand-lockup">
+          <div class="brand-badge">666</div>
+          <div>
+            <div class="brand-name">SUBDIVISION</div>
+            <div class="brand-sub">WHISPERING PINES ESTATES</div>
+          </div>
+        </div>
+        <div id="objectivePill" class="objective-pill">
+          <span class="obj-dot"></span>
+          <span id="objectiveText">TOUR THE NEIGHBORHOOD</span>
+        </div>
+        <div class="hud-actions">
+          <div id="soulCounter" class="soul-counter"><span class="soul-gem">◆</span><b id="soulCount">0</b><span>/5</span></div>
+          <button id="soundBtn" class="icon-btn" aria-label="Toggle sound">♪</button>
+          <button id="menuBtn" class="icon-btn" aria-label="Pause">Ⅱ</button>
+        </div>
+      </header>
+
+      <div id="neighborhoodVitals" class="vitals">
+        <div class="vital-row"><span class="vital-label">OPEN HOUSES</span><div id="housePips" class="house-pips"></div></div>
+        <div class="vital-row"><span class="vital-label">CONDITION</span><div class="health-shell"><div id="neighborhoodHealth" class="health-fill"></div><span id="healthText">100</span></div></div>
+      </div>
+
+      <div id="levelHud" class="level-hud hidden">
+        <div id="houseTitle" class="house-title">THE MILLER HOUSE</div>
+        <div id="waveLabel" class="wave-label">WAVE 1 / 2</div>
+        <div id="bossBar" class="boss-bar hidden">
+          <div class="boss-name"><span>◆</span> THE SELLER <span>◆</span></div>
+          <div class="boss-shell"><div id="bossFill" class="boss-fill"></div></div>
+        </div>
+      </div>
+
+      <div id="reticle" class="reticle hidden"><i></i><b></b><i></i><i></i></div>
+      <div id="hitMarker" class="hit-marker"></div>
+
+      <div id="joystick" class="joystick" aria-label="Movement joystick">
+        <div class="joystick-ring"></div>
+        <div id="joystickKnob" class="joystick-knob"><span>+</span></div>
+      </div>
+
+      <button id="actionBtn" class="action-btn hidden">
+        <span id="actionKey" class="action-key">E</span>
+        <span id="actionLabel">ENTER</span>
+        <small id="actionSub">THE MILLER HOUSE</small>
+      </button>
+
+      <button id="fireBtn" class="fire-btn hidden" aria-label="Fire shotgun">
+        <span class="fire-icon">✦</span><span>FIRE</span>
+      </button>
+
+      <div id="levelStats" class="level-stats hidden">
+        <div class="health-block">
+          <div class="stat-caption">HEALTH</div>
+          <div class="health-shell big"><div id="levelHealth" class="health-fill"></div><span id="levelHealthText">100</span></div>
+        </div>
+        <div class="shell-block">
+          <div class="stat-caption">SHELLS</div>
+          <div id="shellPips" class="shell-pips"></div>
+        </div>
+      </div>
+
+      <div id="waveBanner" class="wave-banner hidden">
+        <div class="wave-kicker">OPEN HOUSE</div>
+        <div id="waveBannerTitle" class="wave-banner-title">WELCOME HOME</div>
+        <div id="waveBannerSub" class="wave-banner-sub">THE PREVIOUS OWNERS NEVER LEFT</div>
+      </div>
+
+      <div id="exitBanner" class="exit-banner hidden">
+        <span class="exit-arrow">↓</span>
+        <div><b>SOUL CLEANSED</b><small>Step into the portal to return outside</small></div>
+      </div>
+
+      <div id="toast" class="toast"></div>
+      <div id="compass" class="compass"><span id="compassArrow">▲</span><small id="compassText">MILLER HOUSE</small></div>
+    </div>
+
+    <section id="startScreen" class="screen start-screen">
+      <div class="top-strip">
+        <span>WHISPERING PINES ESTATES</span>
+        <span class="top-strip-mid">● OPEN HOUSE · OCT 31 ●</span>
+        <span>NO MONEY DOWN · SOULS ACCEPTED</span>
+      </div>
+      <div class="start-center">
+        <div class="eyebrow"><span></span> A NEIGHBORHOOD WHERE EVERY HOUSE IS A DOOM LEVEL <span></span></div>
+        <h1 class="logo">SUBDIVISION<span class="logo-666">666</span></h1>
+        <div class="tagline">Every home is a hell of a deal.</div>
+        <p class="start-copy">Five adorable open houses. Five unspeakable floor plans.<br/>Tour the cul-de-sac, clear the demons, and close the sale.</p>
+        <button id="startBtn" class="primary-btn"><span>TOUR THE NEIGHBORHOOD</span><small>PRESS START</small></button>
+        <div class="start-controls">
+          <div><kbd>WASD</kbd><span>WALK</span></div>
+          <div><kbd>DRAG</kbd><span>LOOK</span></div>
+          <div><kbd>E</kbd><span>ENTER HOME</span></div>
+          <div><kbd>CLICK</kbd><span>SHOOT</span></div>
+        </div>
+        <div class="touch-controls">JOYSTICK TO WALK · DRAG TO LOOK · TAP ENTER OR FIRE</div>
+      </div>
+      <footer class="start-footer">
+        <div class="feature"><b>5</b><span>POSSESSED<br/>PROPERTIES</span></div>
+        <div class="feature"><b>∞</b><span>NO MONEY<br/>DOWN</span></div>
+        <div class="feature"><b>1</b><span>HELL OF A<br/>NEIGHBORHOOD</span></div>
+        <div class="listing-agent">LISTING AGENT<br/><b>MRS. HOLLOWAY</b><small>LICENSED IN 9 CIRCLES</small></div>
+      </footer>
+    </section>
+
+    <section id="pauseScreen" class="screen overlay-screen hidden">
+      <div class="modal">
+        <div class="modal-kicker">OPEN HOUSE ON HOLD</div>
+        <h2>TAKE A BREATH.</h2>
+        <p>Your soul is still yours. Probably.</p>
+        <button id="resumeBtn" class="primary-btn small"><span>RESUME TOUR</span></button>
+        <button id="restartBtn" class="ghost-btn">RESTART OPEN HOUSE</button>
+      </div>
+    </section>
+
+    <section id="deathScreen" class="screen overlay-screen hidden">
+      <div class="modal death-modal">
+        <div class="modal-kicker">SALE FELL THROUGH</div>
+        <h2>YOU'RE<br/><span>FORECLOSED.</span></h2>
+        <p>The house always wins.</p>
+        <button id="retryBtn" class="primary-btn small"><span>RE-ENTER HOME</span></button>
+        <button id="deathExitBtn" class="ghost-btn">BACK TO THE NEIGHBORHOOD</button>
+      </div>
+    </section>
+
+    <section id="victoryScreen" class="screen overlay-screen hidden">
+      <div class="modal victory-modal">
+        <div class="modal-kicker">ALL FIVE LOTS · UNDER CONTRACT</div>
+        <h2>THE SUBDIVISION<br/><span>IS YOURS.</span></h2>
+        <p>You cleared the cul-de-sac, closed every sale, and sent the previous owners back to the fine print.</p>
+        <div class="victory-stats">
+          <div><b id="victoryKills">0</b><span>DEMONS EVICTED</span></div>
+          <div><b id="victoryTime">00:00</b><span>TIME ON MARKET</span></div>
+          <div><b id="victoryDeaths">0</b><span>DEATHS</span></div>
+        </div>
+        <button id="playAgainBtn" class="primary-btn small"><span>TOUR AGAIN</span></button>
+      </div>
+    </section>
+
+    <div id="fade" class="fade"></div>
+    <div id="rotateHint" class="rotate-hint hidden">
+      <div class="phone-icon">▭</div>
+      <b>ROTATE YOUR PHONE</b>
+      <span>For the full open-house experience</span>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
